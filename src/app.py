@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 
 from config import config
 
@@ -6,6 +7,8 @@ from config import config
 from routes import Herr
 
 app = Flask(__name__)
+
+CORS(app,resources={"*":{"origins":{"htpp://localhost:9300"}}})
 
 def page_not_found(error):
     return "<h1>Not found page </h1>",404
