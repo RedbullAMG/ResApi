@@ -1,7 +1,7 @@
 from database.db import get_connection
 from .entities.Herr import Herr
 
-
+from utils.ApiBanco import getSeries 
 
 class HerrModel():
     
@@ -16,9 +16,9 @@ class HerrModel():
                 resultset=cursor.fetchall()
                 
                 for row in resultset:
-                    herr=Herr(row[0],row[1],row[2])
-                    herrms.append(herr.to_JSON())
                     
+                    herr=Herr(row[0],row[1],row[2],"{0:.2f}".format(getSeries(row[2])))
+                    herrms.append(herr.to_JSON())
             connection.close()
             return herrms
                     
@@ -38,7 +38,7 @@ class HerrModel():
                 
                 herr=None
                 if row != None:
-                    herr=Herr(row[0],row[1],row[2])
+                    herr=Herr(row[0],row[1],row[2],"{0:.2f}".format(getSeries(row[2])))
                     herr=herr.to_JSON()
                     
                     
@@ -81,9 +81,6 @@ class HerrModel():
                
                 affected_rows=cursor.rowcount
                 connection.commit()
-                
-               
-                    
                     
             connection.close()
             return affected_rows
